@@ -8,3 +8,5 @@ graph TD
     
     style B fill:#f9f,stroke:#333,stroke-width:4px
 ```
+// Just broadcast the name—the script doesn't need to know the UI exists!
+EventBus.Publish("LevelComplete");
