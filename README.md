@@ -2,6 +2,7 @@
 **A lightweight decoupled messaging system for Unity toolsets using the Observer Pattern.**
 
 ---
+<br>
 
 ### Overview
 In Unity development, "Spaghetti Code" occurs when systems are too tightly coupled (e.g., a UserCredits script manually searching for a UI script via `GameObject.Find` or `GetComponent`). 
@@ -26,7 +27,7 @@ public class UserCredits : MonoBehaviour {
 ```
 
 #### After: Decoupled (Event Bus)
-The `UserCredits` script is now "independent." It simply shouts that credits have been spent. It doesn't care if a UI exists, if a Sound System is listening, or if any other script is tracking that.
+The `UserCredits` script is now "independent." It simply shouts that credits have been spent. It doesn't care if a UI exists, if a Sound System is listening, or if any other script is tracking it.
 ```csharp
 // UserCredits.cs
 public class UserCredits : MonoBehaviour {
