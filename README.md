@@ -2,7 +2,6 @@
 **A lightweight decoupled messaging system for Unity toolsets using the Observer Pattern.**
 
 ---
-<br>
 
 ### Overview
 In Unity development, "Spaghetti Code" occurs when systems are too tightly coupled (e.g., a UserCredits script manually searching for a UI script via `GameObject.Find` or `GetComponent`). 

@@ -1,0 +1,16 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Visual Studio / VS Code files
+.vscode/
+.vs/
+*.sln
+*.csproj
+*.user
+*.suo
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
