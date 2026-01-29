@@ -32,4 +32,10 @@ public static class EventBus<T>
         Events.TryGetValue(eventName, out Action<T> action);
         action?.Invoke(data);
     }
+
+    // CLEAR: Useful when switching scenes
+    public static void ClearAll()
+    {
+        Events.Clear();
+    }
 }
