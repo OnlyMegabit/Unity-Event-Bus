@@ -15,23 +15,27 @@ In this scenario, the `UserCredits` script is "married" to the `UIManager` and `
 ```csharp
 // UserCredits.cs
 public class UserCredits : MonoBehaviour {
-    public UIManager ui;       // Hard reference
-    public SoundManager sfx;    // Hard reference
+    public UIManager ui; // Hard reference
 
-    void OnCreditSpent() {
-        ui.DecreaseBalance();     // If ui is missing, unity breaks
-        sfx.PlayBalanceSound();   // If sfx is missing, unity breaks
+    void SpendCredits(int amount) {
+        // Logic is stuck: it HAS to know about the UI to work
+        ui.UpdateDisplay(amount); 
     }
 }
 ```
 
 #### After: Decoupled (Event Bus)
-The `UserCredits` script is now "independent." It simply shouts that credits have been spent. It doesn't care if a UI exists, if a Sound System is listening, or if any other script is tracking it.
+The `UserCredits` script is now "independent." It simply broadcasts a CreditEvent package. It doesn't care if a UI exists, if a Save System is listening, or if an Analytics script is tracking it.
 ```csharp
 // UserCredits.cs
+public struct CreditEvent { 
+    public int amount;
+}
+
 public class UserCredits : MonoBehaviour {
-    void OnCreditSpent() {
-        EventBus.Publish("CreditSpent"); // Just broadcast the signal
+    void SpendCredits(int amount) {
+        // Broadcast the data package to any system that cares
+        EventBus<CreditEvent>.Publish("CreditSpent", new CreditEvent { amount = amount });
     }
 }
 ```
@@ -40,7 +44,7 @@ public class UserCredits : MonoBehaviour {
 
 ```mermaid
 graph TD
-    A[Broadcaster: UserCredits.cs] -->|Publish 'CreditSpent'| B(<b>Global Event Bus</b>)
-    B -->|Notify| C[Listener: UIManager.cs]
-    B -->|Notify| D[Listener: SoundManager.cs]
-    B -->|Notify| E[Listener: SaveSystem.cs]
+    A[Broadcaster: UserCredits.cs] -->|Publish 'CreditEvent'| B(<b>Global Event Bus &lt;T&gt;</b>)
+    B -->|Notify with Data| C[Listener: UIManager.cs]
+    B -->|Notify with Data| D[Listener: SaveSystem.cs]
+    B -->|Notify with Data| E[Listener: Analytics.cs]
