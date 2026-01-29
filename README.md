@@ -11,7 +11,7 @@ This project provides a **Global Event Bus** that acts as a central "Radio Stati
 ### Architecture: Before vs. After
 
 #### Before: Tight Coupling (Spaghetti Code)
-In this scenario, the `UserCredits` script is "married" to the `UIManager` and `SoundManager`. If you delete the UI, the UserCredits script crashes.
+In this scenario, the `UserCredits` script is "married" to the `UIManager`. To update the UI, the script needs a hard reference and specific knowledge of how the UI works. If you delete the UI, the logic breaks.
 ```csharp
 // UserCredits.cs
 public class UserCredits : MonoBehaviour {
