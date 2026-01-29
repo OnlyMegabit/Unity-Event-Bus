@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-public static class EventBus
+public static class EventBus<T>
 {
     // Key: The name of the event (string)
     // Value: The action to perform (Action)
-    private static readonly Dictionary<string, Action> Events = new Dictionary<string, Action>();
+    private static readonly Dictionary<string, Action<T>> Events = new Dictionary<string, Action<T>>();
 
     // SUBSCRIBE: Start listening for this event
-    public static void Subscribe(string eventName, Action listener)
+    public static void Subscribe(string eventName, Action<T> listener)
     {
         if (!Events.ContainsKey(eventName))
         {
@@ -18,7 +18,7 @@ public static class EventBus
     }
 
     // UNSUBSCRIBE: Stop listening
-    public static void Unsubscribe(string eventName, Action listener)
+    public static void Unsubscribe(string eventName, Action<T> listener)
     {
         if (Events.ContainsKey(eventName))
         {
@@ -27,11 +27,9 @@ public static class EventBus
     }
 
     // PUBLISH: Broadcast the event to everyone listening
-    public static void Publish(string eventName)
+    public static void Publish(string eventName, T data)
     {
-        if (Events.ContainsKey(eventName))
-        {
-            Events[eventName]?.Invoke();
-        }
+        Events.TryGetValue(eventName, out Action<T> action);
+        action?.Invoke(data);
     }
 }
